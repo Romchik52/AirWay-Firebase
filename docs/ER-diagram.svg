@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<defs><style>text{font-family:Inter,Arial,sans-serif;fill:#101828}.box{fill:#fff;stroke:#d8e2ed;stroke-width:2}.head{fill:#07111f}.headtext{fill:#fff;font-weight:800}.field{font-size:14px}.rel{stroke:#7ea9d4;stroke-width:2;fill:none}.title{font-size:27px;font-weight:800}.sub{font-size:13px;fill:#667085}</style></defs>
+<rect width="1200" height="760" fill="#f7f9fc"/>
+<text x="55" y="55" class="title">AirWay · Cloud Firestore ER Diagram</text><text x="55" y="80" class="sub">Основные сущности учебной системы бронирования</text>
+<!-- users -->
+<g><rect x="55" y="130" width="235" height="205" rx="16" class="box"/><rect x="55" y="130" width="235" height="44" rx="16" class="head"/><rect x="55" y="158" width="235" height="16" class="head"/><text x="75" y="158" class="headtext">users</text><text x="75" y="202" class="field">uid · PK</text><text x="75" y="226" class="field">name</text><text x="75" y="250" class="field">email</text><text x="75" y="274" class="field">phone</text><text x="75" y="298" class="field">role</text><text x="75" y="322" class="field">createdAt</text></g>
+<!-- flights -->
+<g><rect x="475" y="125" width="250" height="245" rx="16" class="box"/><rect x="475" y="125" width="250" height="44" rx="16" class="head"/><rect x="475" y="153" width="250" height="16" class="head"/><text x="495" y="153" class="headtext">flights</text><text x="495" y="197" class="field">id · PK</text><text x="495" y="221" class="field">flightNumber · airline</text><text x="495" y="245" class="field">from · to · cities</text><text x="495" y="269" class="field">departureDate · time</text><text x="495" y="293" class="field">price · baggage</text><text x="495" y="317" class="field">seats · totalSeats</text><text x="495" y="341" class="field">status · class · stops</text></g>
+<!-- cart -->
+<g><rect x="55" y="455" width="235" height="175" rx="16" class="box"/><rect x="55" y="455" width="235" height="44" rx="16" class="head"/><rect x="55" y="483" width="235" height="16" class="head"/><text x="75" y="483" class="headtext">cart</text><text x="75" y="527" class="field">id · PK</text><text x="75" y="551" class="field">userId · flightId</text><text x="75" y="575" class="field">price · quantity</text><text x="75" y="599" class="field">route snapshot</text></g>
+<!-- bookings -->
+<g><rect x="475" y="435" width="250" height="240" rx="16" class="box"/><rect x="475" y="435" width="250" height="44" rx="16" class="head"/><rect x="475" y="463" width="250" height="16" class="head"/><text x="495" y="463" class="headtext">bookings</text><text x="495" y="507" class="field">id · PK</text><text x="495" y="531" class="field">userId · flightId</text><text x="495" y="555" class="field">bookingCode · ticketCode</text><text x="495" y="579" class="field">quantity · passengers[]</text><text x="495" y="603" class="field">price · status</text><text x="495" y="627" class="field">createdAt · cancelledAt</text><text x="495" y="651" class="field">isDemo</text></g>
+<!-- reviews -->
+<g><rect x="885" y="130" width="235" height="185" rx="16" class="box"/><rect x="885" y="130" width="235" height="44" rx="16" class="head"/><rect x="885" y="158" width="235" height="16" class="head"/><text x="905" y="158" class="headtext">reviews</text><text x="905" y="202" class="field">id · PK</text><text x="905" y="226" class="field">userId · flightId</text><text x="905" y="250" class="field">rating</text><text x="905" y="274" class="field">text</text><text x="905" y="298" class="field">createdAt</text></g>
+<!-- logs -->
+<g><rect x="885" y="435" width="235" height="205" rx="16" class="box"/><rect x="885" y="435" width="235" height="44" rx="16" class="head"/><rect x="885" y="463" width="235" height="16" class="head"/><text x="905" y="463" class="headtext">activityLogs</text><text x="905" y="507" class="field">id · PK</text><text x="905" y="531" class="field">userId</text><text x="905" y="555" class="field">action</text><text x="905" y="579" class="field">bookingId / flightId</text><text x="905" y="603" class="field">source · createdAt</text></g>
+<!-- relations -->
+<path d="M290 225 C370 225 395 245 475 245" class="rel"/><text x="335" y="213" class="sub">user → flights actions</text>
+<path d="M172 335 L172 455" class="rel"/><text x="185" y="405" class="sub">userId</text>
+<path d="M290 520 C365 520 395 545 475 545" class="rel"/><text x="335" y="505" class="sub">userId</text>
+<path d="M600 370 L600 435" class="rel"/><text x="615" y="408" class="sub">flightId</text>
+<path d="M725 245 C790 245 820 245 885 245" class="rel"/><text x="785" y="232" class="sub">flightId</text>
+<path d="M725 545 C790 545 820 545 885 545" class="rel"/><text x="785" y="532" class="sub">audit</text>
+<path d="M290 280 C700 330 760 450 885 520" class="rel" stroke-dasharray="6 6"/><text x="755" y="390" class="sub">userId</text>
+</svg>

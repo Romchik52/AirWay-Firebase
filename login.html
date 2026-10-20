@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirWay — Вход</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-body">
+  <div id="appHeader"></div>
+  <main class="auth-page">
+    <div class="auth-card">
+      <span class="eyebrow dark">AIRWAY ACCOUNT</span>
+      <h1>С возвращением</h1>
+      <p class="muted">Войдите, чтобы управлять своими билетами.</p>
+      <form id="loginForm" class="auth-form" novalidate>
+        <label class="field"><span>Email</span><input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label class="field password-field"><span>Пароль</span><div class="password-wrap"><input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"><button type="button" class="password-toggle" data-toggle-password="password">Показать</button></div></label>
+        <button class="primary-btn" type="submit">Войти</button>
+      </form>
+      <button id="forgotPassword" class="link-btn">Забыли пароль?</button>
+      <p class="auth-switch">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+      <div class="auth-hint">Если вход не работает, проверьте в Firebase: Authentication → Sign-in method → Email/Password.</div>
+    </div>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>
