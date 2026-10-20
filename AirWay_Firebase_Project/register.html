@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirWay — Регистрация</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-body">
+  <div id="appHeader"></div>
+  <main class="auth-page">
+    <div class="auth-card">
+      <span class="eyebrow dark">AIRWAY ACCOUNT</span>
+      <h1>Создать аккаунт</h1>
+      <p class="muted">Регистрация займёт меньше минуты.</p>
+      <form id="registerForm" class="auth-form" novalidate>
+        <label class="field"><span>Имя</span><input id="name" type="text" autocomplete="name" required placeholder="Ваше имя"></label>
+        <label class="field"><span>Email</span><input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label class="field"><span>Телефон</span><input id="phone" type="tel" autocomplete="tel" placeholder="+7 700 000 00 00"></label>
+        <label class="field password-field"><span>Пароль</span><div class="password-wrap"><input id="password" type="password" autocomplete="new-password" minlength="6" required placeholder="Минимум 6 символов"><button type="button" class="password-toggle" data-toggle-password="password">Показать</button></div></label>
+        <label class="field password-field"><span>Повторите пароль</span><div class="password-wrap"><input id="password2" type="password" autocomplete="new-password" minlength="6" required placeholder="Повторите пароль"><button type="button" class="password-toggle" data-toggle-password="password2">Показать</button></div></label>
+        <button class="primary-btn" type="submit">Зарегистрироваться</button>
+      </form>
+      <p class="auth-switch">Уже есть аккаунт? <a href="login.html">Войти</a></p>
+      <div class="auth-hint">Для регистрации в Firebase должен быть включён провайдер Email/Password.</div>
+    </div>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>

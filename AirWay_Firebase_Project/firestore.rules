@@ -1,0 +1,109 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == "user";
+      allow update: if isAdmin() || (
+        signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.email == resource.data.email
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /flights/{flightId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      // Клиент не может менять цену, маршрут или расписание. Пользователю
+      // разрешено только атомарно изменить доступные места в диапазоне 0..5
+      // при оформлении/отмене собственного бронирования.
+      allow update: if isAdmin() || (
+        signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["seats", "status", "updatedAt"])
+        && request.resource.data.seats >= 0
+        && request.resource.data.seats <= resource.data.seats + 5
+        && request.resource.data.seats >= resource.data.seats - 5
+        && (!request.resource.data.keys().hasAny(["totalSeats"]) || request.resource.data.seats <= request.resource.data.totalSeats)
+        && ((request.resource.data.seats == 0 && request.resource.data.status == "sold_out")
+          || (request.resource.data.seats > 0 && request.resource.data.status == "available"))
+      );
+    }
+
+    match /cart/{cartId} {
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.quantity >= 1
+        && request.resource.data.quantity <= 5;
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["quantity"])
+        && request.resource.data.quantity >= 1
+        && request.resource.data.quantity <= 5;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == "pending"
+        && request.resource.data.quantity >= 1
+        && request.resource.data.quantity <= 5
+        && request.resource.data.bookingCode is string
+        && request.resource.data.passengers is list
+        && request.resource.data.passengers.size() == request.resource.data.quantity
+        && (request.resource.data.isDemo == true || (
+          get(/databases/$(database)/documents/flights/$(request.resource.data.flightId)).data.price == request.resource.data.price
+          && get(/databases/$(database)/documents/flights/$(request.resource.data.flightId)).data.flightNumber == request.resource.data.flightNumber
+          && get(/databases/$(database)/documents/flights/$(request.resource.data.flightId)).data.seats >= request.resource.data.quantity
+          && get(/databases/$(database)/documents/flights/$(request.resource.data.flightId)).data.status == "available"
+        ));
+      // Обычный пользователь может только отменить своё бронирование.
+      // Администратор может менять статус и служебные поля.
+      allow update: if isAdmin() || (
+        signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status", "cancelledAt", "hiddenFromUser", "hiddenAt"])
+        && (request.resource.data.status == "cancelled" || resource.data.status == "cancelled")
+        && (!request.resource.data.keys().hasAny(["hiddenFromUser"]) || request.resource.data.hiddenFromUser == true)
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if signedIn()
+        && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    match /activityLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() || (
+        signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.action in ["booking_created", "booking_cancelled", "booking_returned_to_cart"]
+        && (!request.resource.data.keys().hasAny(["source"]) || request.resource.data.source != "admin")
+      );
+      allow update, delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "flightNumber": "KC-207",
+    "airline": "Air Astana",
+    "from": "ALA",
+    "fromCity": "Алматы",
+    "to": "DXB",
+    "toCity": "Дубай",
+    "departureDate": "2026-09-20",
+    "departureTime": "09:30",
+    "arrivalTime": "13:10",
+    "duration": "4ч 40м",
+    "price": 85000,
+    "seats": 18,
+    "class": "Economy",
+    "stops": 0,
+    "baggage": "20 кг",
+    "status": "available",
+    "description": "Прямой рейс из Алматы в Дубай."
+  },
+  {
+    "flightNumber": "FZ-1720",
+    "airline": "FlyDubai",
+    "from": "ALA",
+    "fromCity": "Алматы",
+    "to": "DXB",
+    "toCity": "Дубай",
+    "departureDate": "2026-09-21",
+    "departureTime": "16:20",
+    "arrivalTime": "20:10",
+    "duration": "4ч 50м",
+    "price": 72000,
+    "seats": 12,
+    "class": "Economy",
+    "stops": 0,
+    "baggage": "20 кг",
+    "status": "available",
+    "description": "Прямой рейс в Дубай."
+  }
+]

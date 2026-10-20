@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirWay — Админ-панель</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/admin.css">
+</head>
+<body><div id="appHeader"></div>
+<main class="page"><div class="container">
+  <div class="page-title"><span class="eyebrow dark">ADMINISTRATION</span><h1>Панель управления</h1><p class="muted">Управление рейсами, заказами и пользователями.</p></div>
+  <div id="adminGuard" class="loading">Проверяем доступ...</div>
+  <div id="adminContent" class="hidden">
+    <div id="stats" class="stats-grid"></div>
+    <div id="adminOverview" class="admin-overview"></div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="flights">Рейсы</button>
+      <button class="admin-tab" data-tab="bookings">Заказы</button>
+      <button class="admin-tab" data-tab="users">Пользователи</button>
+      <button class="admin-tab" data-tab="reviews">Отзывы</button>
+      <button class="admin-tab" data-tab="logs">Журнал</button>
+    </div>
+    <section id="adminPanel"></section>
+  </div>
+</div></main>
+<div id="modal" class="modal hidden"></div>
+<div id="detailModal" class="modal hidden"></div><div id="toast" class="toast"></div>
+<script type="module" src="js/admin.js"></script></body></html>

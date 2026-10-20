@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirWay — Авиабилеты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="appHeader"></div>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container hero-content">
+        <div class="hero-copy">
+          <span class="eyebrow">✈ AIRWAY TRAVEL</span>
+          <h1>Путешествия<br><span>начинаются здесь.</span></h1>
+          <p>Находите удобные рейсы, выбирайте лучшие цены и бронируйте билеты в несколько кликов.</p>
+        </div>
+
+        <div class="search-card">
+          <div class="search-tabs">
+            <button class="tab active">В одну сторону</button>
+          </div>
+          <form id="flightSearchForm" class="search-grid">
+            <label class="field">
+              <span>Откуда</span>
+              <input id="fromInput" list="airportHints" type="text" placeholder="Например, Алматы или ALA" autocomplete="off">
+            </label>
+            <button type="button" id="swapBtn" class="swap-btn" title="Поменять местами">⇄</button>
+            <label class="field">
+              <span>Куда</span>
+              <input id="toInput" list="airportHints" type="text" placeholder="Например, Дубай или DXB" autocomplete="off">
+            </label>
+            <label class="field">
+              <span>Дата вылета</span>
+              <input id="dateInput" type="date">
+            </label>
+            <label class="field">
+              <span>Пассажиры</span>
+              <select id="passengersInput">
+                <option value="1">1 пассажир</option>
+                <option value="2">2 пассажира</option>
+                <option value="3">3 пассажира</option>
+                <option value="4">4 пассажира</option>
+                <option value="5">5 пассажиров</option>
+              </select>
+            </label>
+            <button class="primary-btn search-btn" type="submit">Найти рейсы <span>→</span></button>
+          </form>
+          <datalist id="airportHints"><option value="Алматы (ALA)"><option value="Астана (NQZ)"><option value="Дубай (DXB)"><option value="Стамбул (IST)"><option value="Ташкент (TAS)"><option value="Лондон (LHR)"><option value="Сеул (ICN)"><option value="Пекин (PEK)"><option value="Доха (DOH)"><option value="Москва (MOW)"></datalist>
+          <div class="search-footnote"><span>✦ Поиск по городу или IATA-коду</span><span>Безопасное бронирование через Firebase</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section catalog-section" id="results">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow dark">РЕЙСЫ</span>
+            <h2>Популярные направления</h2>
+          </div>
+          <div class="results-side"><span id="dataMode" class="data-mode">Загрузка...</span><span id="resultsCount" class="results-count">Загрузка...</span></div>
+        </div>
+
+        <div class="toolbar">
+          <div class="filters">
+            <select id="airlineFilter" class="control">
+              <option value="">Все авиакомпании</option>
+            </select>
+            <select id="classFilter" class="control">
+              <option value="">Все классы</option>
+              <option value="Economy">Эконом</option>
+              <option value="Business">Бизнес</option>
+            </select>
+            <select id="stopsFilter" class="control">
+              <option value="">Любое количество пересадок</option>
+              <option value="0">Прямой рейс</option>
+              <option value="1">1 пересадка</option>
+            </select>
+            <select id="sortSelect" class="control">
+              <option value="priceAsc">Цена: по возрастанию</option>
+              <option value="priceDesc">Цена: по убыванию</option>
+              <option value="dateAsc">Дата: ближайшие</option>
+            </select>
+          </div>
+          <button id="clearFilters" class="text-btn">Сбросить</button>
+        </div>
+
+        <div class="popular-routes"><div class="popular-routes-head"><div><span class="eyebrow dark">EXPLORE / 03</span><h3>Куда полетим?</h3></div><span>Быстрый выбор направления</span></div><div class="popular-route-grid">
+          <button class="popular-route" data-from="Алматы" data-to="Дубай"><span>ALA</span><i>→</i><strong>DXB</strong><small>Алматы — Дубай</small></button>
+          <button class="popular-route" data-from="Алматы" data-to="Стамбул"><span>ALA</span><i>→</i><strong>IST</strong><small>Алматы — Стамбул</small></button>
+          <button class="popular-route" data-from="Алматы" data-to="Ташкент"><span>ALA</span><i>→</i><strong>TAS</strong><small>Алматы — Ташкент</small></button>
+          <button class="popular-route" data-from="Алматы" data-to="Сеул"><span>ALA</span><i>→</i><strong>ICN</strong><small>Алматы — Сеул</small></button>
+        </div></div>
+
+        <div id="flightGrid" class="flight-grid">
+          <div class="loading">Загружаем рейсы...</div>
+        </div>
+
+        <div class="load-more-wrap">
+          <button id="loadMoreBtn" class="secondary-btn">Показать ещё</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container features-grid">
+        <div class="feature"><div class="feature-icon">⌕</div><h3>Удобный поиск</h3><p>Ищите рейсы по маршруту, дате и параметрам.</p></div>
+        <div class="feature"><div class="feature-icon">◈</div><h3>Актуальные цены</h3><p>Firebase-рейсы подгружаются из базы, а демо-варианты помогают тестировать поиск.</p></div>
+        <div class="feature"><div class="feature-icon">✓</div><h3>Безопасно</h3><p>Авторизация и доступ к данным защищены Firebase.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script type="module" src="js/index.js"></script>
+</body>
+</html>
